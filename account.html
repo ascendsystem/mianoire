@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My account | MIA</title>
+  <link rel="stylesheet" href="css/style.css?v=subscription-status-badge">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="logo" href="index.html">MIA</a>
+      <div class="header-actions">
+        <a class="button" href="content.html">Private content</a>
+        <button class="button" type="button" id="logoutButton">Log out</button>
+      </div>
+    </header>
+    <main>
+      <h1 class="page-title">My account</h1>
+      <p class="muted" id="accountEmail"></p>
+      <div class="account-dashboard">
+        <section class="account-panel">
+          <form id="passwordSetupForm" hidden>
+            <h2 class="page-title">Set your password</h2>
+            <p class="muted">The email used at checkout is your MIA login. Create a password to access your account.</p>
+            <label for="newPassword">New password</label>
+            <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
+            <button class="button button-primary" type="submit">Save password</button>
+          </form>
+          <h2 class="account-section-title">Subscription</h2>
+          <p class="subscription-status-badge" id="subscriptionStatus" role="status">Checking...</p>
+          <p class="status" id="accountMessage" aria-live="polite"></p>
+        </section>
+        <section class="subscription-panel account-subscription-panel" id="subscriptionPanel" hidden>
+          <div>
+            <p class="subscription-label">SUBSCRIPTION</p>
+            <p class="subscription-remaining" id="subscriptionRemaining">Checking...</p>
+            <p class="subscription-note" id="subscriptionNote"></p>
+          </div>
+          <button class="button subscription-manage" id="manageSubscriptionButton" type="button" hidden>
+            Cancel subscription
+          </button>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script>window.supabaseClient = supabaseClient;</script>
+  <script src="js/account.js?v=subscription-status-badge"></script>
+</body>
+</html>

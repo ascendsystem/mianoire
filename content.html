@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Private content | MIA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="logo" href="index.html">MIA</a>
+      <div class="header-actions">
+        <a class="account-button" href="account.html" aria-label="My account">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.25 4.25 0 1 0 0-8.5A4.25 4.25 0 0 0 12 12Zm0 2c-4.3 0-7.75 2.2-7.75 4.9V21h15.5v-2.1c0-2.7-3.45-4.9-7.75-4.9Z"/></svg>
+          <span>My account</span>
+        </a>
+        <button class="button" type="button" id="logoutButton">Log out</button>
+      </div>
+    </header>
+    <main>
+      <h1 class="page-title">Private content</h1>
+      <p class="muted">Your exclusive collection.</p>
+      <p class="status" id="contentStatus">Checking your access...</p>
+      <div class="content-grid" id="contentGrid"></div>
+    </main>
+  </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close">×</button>
+    <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous image">‹</button>
+    <div class="lightbox-media">
+      <img class="lightbox-image" id="lightboxImage" alt="Private content">
+      <span class="lightbox-watermark">mianoire.com</span>
+    </div>
+    <button class="lightbox-arrow lightbox-next" id="lightboxNext" type="button" aria-label="Next image">›</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      await signOut();
+      window.location.href = 'index.html';
+    });
+  </script>
+  <script>window.supabaseClient = supabaseClient;</script>
+  <script src="js/content.js"></script>
+</body>
+</html>

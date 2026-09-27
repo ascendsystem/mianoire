@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MIA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="logo" href="index.html">MIA</a>
+      <span class="age">18+</span>
+    </header>
+
+    <main class="landing">
+      <div class="landing-content">
+        <img class="hero-image" src="assets/images/banner.jpg" alt="MIA">
+        <div class="button-row">
+          <button class="button" type="button" data-open-login>Login</button>
+          <a class="button button-primary" href="pricing.html">Subscribe</a>
+        </div>
+      </div>
+    </main>
+    <footer>Exclusive content for adults only</footer>
+  </div>
+
+  <div class="modal" id="loginModal" aria-hidden="true">
+    <form class="modal-card" id="loginForm">
+      <button class="close-button" type="button" data-close-login aria-label="Close">×</button>
+      <h1>Welcome back</h1>
+      <p id="authDescription">Log in to access your content.</p>
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="email" required>
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" required>
+      <button class="button button-primary button-full" type="submit">Log in</button>
+      <p class="form-message" id="loginMessage" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | MIA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="logo" href="index.html">MIA</a>
+      <a class="button" href="content.html">Private content</a>
+    </header>
+    <main>
+      <h1 class="page-title">Upload content</h1>
+      <p class="muted">Files are uploaded to the private-content Supabase bucket.</p>
+      <form class="admin-form" id="adminForm">
+        <label for="contentFile">Photo or video</label>
+        <input id="contentFile" type="file" accept="image/*,video/*" required>
+        <button class="button button-primary" type="submit">Upload</button>
+        <p class="status" id="adminStatus" aria-live="polite"></p>
+      </form>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script>window.supabaseClient = supabaseClient;</script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
