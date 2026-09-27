@@ -4,6 +4,22 @@ const SUPABASE_ANON_KEY = 'sb_publishable_N7eomzreRC6FbAF-9eAbFg_s9k1Py47';
 const supabaseReady = window.supabase && !SUPABASE_URL.includes('YOUR-PROJECT') && !SUPABASE_ANON_KEY.includes('YOUR_');
 const supabaseClient = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+if (supabaseClient) {
+  const isPasswordRecoveryPage = window.location.pathname.endsWith('/account.html')
+    && new URLSearchParams(window.location.search).get('reset') === '1';
+  if (!isPasswordRecoveryPage && window.location.hash.includes('type=recovery')) {
+    window.location.replace(`account.html?reset=1${window.location.hash}`);
+  }
+
+  supabaseClient.auth.onAuthStateChange((event) => {
+    const isRecoveryPage = window.location.pathname.endsWith('/account.html')
+      && new URLSearchParams(window.location.search).get('reset') === '1';
+    if (event === 'PASSWORD_RECOVERY' && !isRecoveryPage) {
+      window.location.assign('account.html?reset=1');
+    }
+  });
+}
+
 function enableSiteProtection() {
   document.addEventListener('contextmenu', (event) => event.preventDefault());
   document.addEventListener('dragstart', (event) => event.preventDefault());

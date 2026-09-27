@@ -1,9 +1,33 @@
 async function loadAccount() {
+  const query = new URLSearchParams(window.location.search);
+  const isPasswordRecovery = query.get('reset') === '1';
+  if (isPasswordRecovery) {
+    document.getElementById('passwordSetupForm').hidden = false;
+    document.getElementById('passwordFormTitle').textContent = 'Reset your password';
+    document.getElementById('passwordFormDescription').textContent = 'Choose a new password for your MIA account.';
+    document.querySelector('.account-section-title').hidden = true;
+    document.getElementById('subscriptionPanel').hidden = true;
+    document.getElementById('subscriptionStatus').hidden = true;
+    document.getElementById('accountEmail').textContent = '';
+    document.getElementById('newPassword').autocomplete = 'new-password';
+
+    const { data: { user }, error } = await supabaseClient.auth.getUser();
+    if (error) throw error;
+    if (!user) {
+      const message = document.getElementById('accountMessage');
+      message.textContent = 'This password reset link is invalid or has expired. Request a new reset email.';
+      message.classList.add('error');
+    } else {
+      document.getElementById('accountEmail').textContent = user.email || '';
+    }
+    return;
+  }
+
   const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
   if (userError) throw userError;
   if (!user) { window.location.href = 'index.html'; return; }
 
-  if (new URLSearchParams(window.location.search).get('welcome') === '1') {
+  if (query.get('welcome') === '1') {
     document.getElementById('passwordSetupForm').hidden = false;
     document.querySelector('.account-section-title').hidden = true;
     document.getElementById('subscriptionPanel').hidden = true;
@@ -139,6 +163,9 @@ async function loadAccount() {
 document.getElementById('passwordSetupForm').addEventListener('submit', async (event) => {
   event.preventDefault();
   const message = document.getElementById('accountMessage');
+  const isPasswordRecovery = new URLSearchParams(window.location.search).get('reset') === '1';
+  message.classList.remove('error');
+  message.textContent = 'Saving password...';
   const { error } = await supabaseClient.auth.updateUser({
     password: document.getElementById('newPassword').value,
   });
@@ -147,7 +174,17 @@ document.getElementById('passwordSetupForm').addEventListener('submit', async (e
     message.classList.add('error');
     return;
   }
-  message.classList.remove('error');
+  if (isPasswordRecovery) {
+    message.textContent = 'Password updated. Please log in with your new password.';
+    const { error: signOutError } = await supabaseClient.auth.signOut();
+    if (signOutError) {
+      message.textContent = `Password updated, but sign out failed: ${signOutError.message}`;
+      message.classList.add('error');
+      return;
+    }
+    window.location.assign('index.html?login=1');
+    return;
+  }
   message.textContent = 'Password saved. Your account is ready.';
   window.history.replaceState({}, '', 'account.html');
   window.setTimeout(() => window.location.reload(), 800);
